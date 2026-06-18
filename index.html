@@ -15,6 +15,15 @@
     <!-- Babel for JSX compilation in browser -->
     <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
 
+    <script>
+        // 核心修复方案：配置 Babel 强制使用经典的 React.createElement 而不是自动引入 jsx-runtime
+        Babel.registerPreset('react-classic', {
+            presets: [
+                [Babel.availablePresets['react'], { runtime: 'classic' }]
+            ]
+        });
+    </script>
+
     <style>
         .perspective-1000 { perspective: 1000px; }
         .transform-style-3d { transform-style: preserve-3d; }
@@ -30,7 +39,8 @@
 <body class="bg-slate-50 text-slate-800 font-sans selection:bg-red-200">
     <div id="root"></div>
 
-    <script type="text/babel">
+    <!-- 指定使用刚注册的 react-classic 预设 -->
+    <script type="text/babel" data-presets="react-classic">
         const { useState } = React;
 
         // --- Icon Components (Replacing lucide-react for standalone HTML) ---
